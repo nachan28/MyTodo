@@ -2,10 +2,10 @@ const todoList = document.querySelector(".todo-list");
 const doneList = document.querySelector(".done-list");
 const todoForm = document.querySelector(".todo-form");
 const todoInput = document.querySelector("#todo-input");
-
 const getTodos = () => {
-  return JSON.parse(localStorage.getItem("todos")) || [];
+    return JSON.parse(localStorage.getItem("todos")) || [];
 };
+let todos = getTodos() || [];
 
 const createTodoElement = (todo) => {
   const todoElement = document.createElement("li");
@@ -19,21 +19,28 @@ const createTodoElement = (todo) => {
     const doneButton = document.createElement("img");
     doneButton.setAttribute("src", "../images/done.png");
     doneButton.classList.add("done-button");
+    const editButton = document.createElement("img");
+    editButton.setAttribute("src", "../images/edit.png");
+    editButton.classList.add("edit-button");
     buttonContainer.appendChild(doneButton);
+    buttonContainer.appendChild(editButton);
     todoList.appendChild(todoElement);
   }
 
   todoElement.addEventListener("click", (e) => {
     if(e.target.classList.contains("done-button")){
-        const todos = getTodos();
         todos.forEach(todo => {
             if(todo.content === todoElement.textContent){
                 todo.isDone = true;
             }
         })
-        saveTodos(todos);
-        updateTodoList();        
+    }else if(e.target.classList.contains("edit-button")){
+        todoInput.value = todoElement.textContent;
+        todos = todos.filter(todo => todo.content !== todoElement.textContent)
+        console.log(todos);
     }
+    saveTodos(todos);
+    updateTodoList();        
 })};
 
 const saveTodos = (todos) => {
@@ -51,7 +58,6 @@ const updateTodoList = () => {
 
 todoForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const todos = getTodos();
   if (todoInput.value) {
     todos.push({ content: todoInput.value, isDone: false });
   }
