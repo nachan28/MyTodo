@@ -9,13 +9,32 @@ const getTodos = () => {
 
 const createTodoElement = (todo) => {
   const todoElement = document.createElement("li");
+  const buttonContainer = document.createElement("div");
   todoElement.textContent = todo.content;
+  todoElement.appendChild(buttonContainer);
+
   if (todo.isDone) {
     doneList.appendChild(todoElement);
   } else {
+    const doneButton = document.createElement("img");
+    doneButton.setAttribute("src", "../images/done.png");
+    doneButton.classList.add("done-button");
+    buttonContainer.appendChild(doneButton);
     todoList.appendChild(todoElement);
   }
-};
+
+  todoElement.addEventListener("click", (e) => {
+    if(e.target.classList.contains("done-button")){
+        const todos = getTodos();
+        todos.forEach(todo => {
+            if(todo.content === todoElement.textContent){
+                todo.isDone = true;
+            }
+        })
+        saveTodos(todos);
+        updateTodoList();        
+    }
+})};
 
 const saveTodos = (todos) => {
   localStorage.setItem("todos", JSON.stringify(todos));
@@ -24,6 +43,7 @@ const saveTodos = (todos) => {
 const updateTodoList = () => {
   const todos = getTodos();
   todoList.innerHTML = "";
+  doneList.innerHTML = "";
   todos.forEach((todo) => {
     createTodoElement(todo);
   });
