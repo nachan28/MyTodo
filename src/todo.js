@@ -32,7 +32,9 @@ const updateTodoList = () => {
 todoForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const todos = getTodos();
-  todos.push({ content: todoInput.value, isDone: false });
+  if (todoInput.value) {
+    todos.push({ content: todoInput.value, isDone: false });
+  }
   saveTodos(todos);
   updateTodoList();
   todoInput.value = "";
