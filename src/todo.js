@@ -5,13 +5,22 @@ const getTodos = () => {
 const createTodoElement = (todo) => {
   const todoElement = document.createElement("li");
   const todoList = document.querySelector(".todo-list");
-  todoElement.textContent = todo;
-  todoList.appendChild(todoElement);
+  const doneList = document.querySelector(".done-list");
+  todoElement.textContent = todo.content;
+  if (todo.isDone) {
+    doneList.appendChild(todoElement);
+  } else {
+    todoList.appendChild(todoElement);
+  }
 };
 
 localStorage.setItem(
   "todos",
-  JSON.stringify(["Buy milk", "Feed the dog", "Water the plant"])
+  JSON.stringify([
+    { content: "Buy milk", isDone: false },
+    { content: "Feed the dog", isDone: true },
+    { content: "Water the plant", isDone: false },
+  ])
 );
 
 const todos = getTodos();
@@ -19,4 +28,3 @@ const todos = getTodos();
 todos.forEach((todo) => {
   createTodoElement(todo);
 });
-
