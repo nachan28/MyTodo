@@ -12,6 +12,12 @@ let todos = getTodos() || [];
 const createTodoElement = (todo) => {
   const todoElement = document.createElement("li");
   const buttonContainer = document.createElement("div");
+
+  const deleteButton = document.createElement("img");
+  deleteButton.setAttribute("src", "../images/delete.png");
+  deleteButton.classList.add("delete-button");
+  buttonContainer.appendChild(deleteButton);
+
   todoElement.textContent = todo.content;
   todoElement.classList.add("todo-element");
   todoElement.appendChild(buttonContainer);
@@ -41,6 +47,8 @@ const createTodoElement = (todo) => {
       todoInput.value = todoElement.textContent;
       todos = todos.filter((todo) => todo.content !== todoElement.textContent);
       console.log(todos);
+    }else if(e.target.classList.contains("delete-button")){
+      todos = todos.filter((todo) => todo.content !== todoElement.textContent);
     }
     saveTodos(todos);
     updateTodoList();
@@ -74,20 +82,19 @@ searchForm.addEventListener("submit", (e) => {
   e.preventDefault();
 });
 
-searchInput.addEventListener("keyup", e => {
-    const searchWord = e.target.value.toLowerCase().trim();
-    const elements = document.querySelectorAll('.todo-element');
-    elements.forEach(ele => {
-        if(ele.classList.contains("hide")){
-            ele.classList.remove("hide");
-        }
-    })
-    elements.forEach(ele => {
-        if(!ele.textContent.toLowerCase().includes(searchWord)){
-            ele.classList.add("hide");
-        }
-    })
-
-})
+searchInput.addEventListener("keyup", (e) => {
+  const searchWord = e.target.value.toLowerCase().trim();
+  const elements = document.querySelectorAll(".todo-element");
+  elements.forEach((ele) => {
+    if (ele.classList.contains("hide")) {
+      ele.classList.remove("hide");
+    }
+  });
+  elements.forEach((ele) => {
+    if (!ele.textContent.toLowerCase().includes(searchWord)) {
+      ele.classList.add("hide");
+    }
+  });
+});
 
 updateTodoList();
