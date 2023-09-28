@@ -2,8 +2,10 @@ const todoList = document.querySelector(".todo-list");
 const doneList = document.querySelector(".done-list");
 const todoForm = document.querySelector(".todo-form");
 const todoInput = document.querySelector("#todo-input");
+const searchForm = document.querySelector(".search-form");
+const searchInput = document.querySelector("#search-input");
 const getTodos = () => {
-    return JSON.parse(localStorage.getItem("todos")) || [];
+  return JSON.parse(localStorage.getItem("todos")) || [];
 };
 let todos = getTodos() || [];
 
@@ -11,6 +13,7 @@ const createTodoElement = (todo) => {
   const todoElement = document.createElement("li");
   const buttonContainer = document.createElement("div");
   todoElement.textContent = todo.content;
+  todoElement.classList.add("todo-element");
   todoElement.appendChild(buttonContainer);
 
   if (todo.isDone) {
@@ -28,20 +31,21 @@ const createTodoElement = (todo) => {
   }
 
   todoElement.addEventListener("click", (e) => {
-    if(e.target.classList.contains("done-button")){
-        todos.forEach(todo => {
-            if(todo.content === todoElement.textContent){
-                todo.isDone = true;
-            }
-        })
-    }else if(e.target.classList.contains("edit-button")){
-        todoInput.value = todoElement.textContent;
-        todos = todos.filter(todo => todo.content !== todoElement.textContent)
-        console.log(todos);
+    if (e.target.classList.contains("done-button")) {
+      todos.forEach((todo) => {
+        if (todo.content === todoElement.textContent) {
+          todo.isDone = true;
+        }
+      });
+    } else if (e.target.classList.contains("edit-button")) {
+      todoInput.value = todoElement.textContent;
+      todos = todos.filter((todo) => todo.content !== todoElement.textContent);
+      console.log(todos);
     }
     saveTodos(todos);
-    updateTodoList();        
-})};
+    updateTodoList();
+  });
+};
 
 const saveTodos = (todos) => {
   localStorage.setItem("todos", JSON.stringify(todos));
@@ -65,5 +69,25 @@ todoForm.addEventListener("submit", (e) => {
   updateTodoList();
   todoInput.value = "";
 });
+
+searchForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+});
+
+searchInput.addEventListener("keyup", e => {
+    const searchWord = e.target.value.toLowerCase().trim();
+    const elements = document.querySelectorAll('.todo-element');
+    elements.forEach(ele => {
+        if(ele.classList.contains("hide")){
+            ele.classList.remove("hide");
+        }
+    })
+    elements.forEach(ele => {
+        if(!ele.textContent.toLowerCase().includes(searchWord)){
+            ele.classList.add("hide");
+        }
+    })
+
+})
 
 updateTodoList();
