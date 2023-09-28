@@ -12,16 +12,13 @@ let todos = getTodos() || [];
 const createTodoElement = (todo) => {
   const todoElement = document.createElement("li");
   const buttonContainer = document.createElement("div");
+  buttonContainer.classList.add("button-container");
 
-  const deleteButton = document.createElement("img");
-  deleteButton.setAttribute("src", "../images/delete.png");
-  deleteButton.classList.add("delete-button");
-  buttonContainer.appendChild(deleteButton);
-
+  
   todoElement.textContent = todo.content;
   todoElement.classList.add("todo-element");
   todoElement.appendChild(buttonContainer);
-
+  
   if (todo.isDone) {
     doneList.appendChild(todoElement);
   } else {
@@ -35,6 +32,10 @@ const createTodoElement = (todo) => {
     buttonContainer.appendChild(editButton);
     todoList.appendChild(todoElement);
   }
+  const deleteButton = document.createElement("img");
+  deleteButton.setAttribute("src", "../images/delete.png");
+  deleteButton.classList.add("delete-button");
+  buttonContainer.appendChild(deleteButton);
 
   todoElement.addEventListener("click", (e) => {
     if (e.target.classList.contains("done-button")) {

@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -10,16 +11,56 @@ body {
 }
 
 .container {
+    width: 400px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 20px
 }
 
+input {
+    margin: 10px 0;
+    height: 1.5rem;
+}
 
+.button-container {
+    display: flex;
+    margin-left: 10px;
+}
+
+.search-form{
+    display: flex;
+    align-items: center;}
+
+li {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background-color: white;
+    box-shadow: 6px 3px 5px -3px #777777;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+h1 { 
+    margin-bottom: 50px;
+}
+
+li img {
+    height: 1.5rem;
+}
+
+img:hover {
+    cursor: pointer;
+    transform: translateY(3px);
+    transition: all 0.1s;
+    
+}
 
 
 .hide {
     display: none;
 }
-
